@@ -1,0 +1,3 @@
+<% user_pass.each do |account| -%>
+<%= account['user'] %>: MD5:<%= account['hash'] %>,<%= account['user'] %>
+<% end -%>
