@@ -25,7 +25,7 @@ class solr (
   $user_pass = generate_usrpass($corecount)
 
 
-  # include java 
+  # include java
   # now temporarily (@todo):
   package { 'openjdk-7-jre-headless': ensure => installed }
 
@@ -51,7 +51,7 @@ class solr (
     group   => 'root',
     mode    => '0755',
     require => Exec['get-solr-tar'],
-  } 
+  }
   file { [ "${solr_home}/logs",
            "${solr_home}/solr",
            "${solr_home}/work" ]:
@@ -61,7 +61,7 @@ class solr (
     mode    => '0755',
     require => Exec['untar'],
     notify  => Service['jetty6'],
-  } 
+  }
 
   user { $solr_user:
     home       => $solr_home,
@@ -80,12 +80,12 @@ class solr (
 
 
   define modconfig  {
-    file{ "${confdir}/${name}":
+    file{ "${solr::confdir}/${name}":
       ensure  => present,
       owner   => 'root',
       group   => 'root',
       mode    => '0444',
-      source  => "puppet:///modules/solr/${search_module}/${name}",
+      source  => "puppet:///modules/solr/${solr::search_module}/${name}",
       require => Exec['untar'],
       notify  => Service['jetty6'],
     }
@@ -105,22 +105,22 @@ class solr (
     mode    => '0644',
   }
 
-  define make_core { 
-    file { "${solr_home}/solr/${name}":
+  define make_core {
+    file { "${solr::solr_home}/solr/${name}":
       ensure => directory,
       owner  => 'root',
       group  => 'root',
       mode   => '0755'
     }
-    file { "${solr_home}/solr/${name}/data":
+    file { "${solr::solr_home}/solr/${name}/data":
       ensure => directory,
       owner  => 'solr',
       group  => 'solr',
       mode   => '0755'
     }
-    file { "${solr_home}/solr/${name}/conf":
+    file { "${solr::solr_home}/solr/${name}/conf":
       ensure => link,
-      target => "${solr_home}/solr/conf",
+      target => "${solr::solr_home}/solr/conf",
     }
   }
 
@@ -200,5 +200,5 @@ class solr (
   service { 'jetty6':
     enable  => true,
     ensure  => running,
-  } 
+  }
 }
