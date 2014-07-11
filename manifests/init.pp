@@ -3,14 +3,13 @@ class solr (
   $version   = '3.6.2',
   $search_module = 'search_api_solr',
   $corecount = 4,
+  $urlprefix = 'http://www.us.apache.org/dist/lucene/solr',
 ) {
   # @todo: make these parameters of this class:
   $solr_user = 'solr'
   $solr_home = '/opt/solr'
 
   #             http://mirror.mel.bkb.net.au/pub/apache/lucene/solr/3.6.1/apache-solr-3.6.1.tgz
-  # $urlprefix = 'http://mirror.mel.bkb.net.au/pub/apache/lucene/solr'
-  $urlprefix = 'http://www.us.apache.org/dist/lucene/solr'
   $appname   = 'apache-solr'
   $tarname   = "apache-solr-${version}.tgz"
 
