@@ -3,7 +3,7 @@ class solr (
   $version   = '3.6.2',
   $search_module = 'search_api_solr',
   $corecount = 4,
-  $urlprefix = 'http://www.us.apache.org/dist/lucene/solr',
+  $urlprefix = 'https://archive.apache.org/dist/lucene/solr',
 ) {
   # @todo: make these parameters of this class:
   $solr_user = 'solr'
