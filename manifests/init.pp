@@ -174,7 +174,7 @@ class solr (
   }
 
   file { "${solr_home}/etc/realm.properties":
-    ensure => present,
+    ensure  => present,
     content => template('solr/realm.properties.erb'),
     owner   => 'root',
     group   => 'solr',
@@ -183,8 +183,8 @@ class solr (
     notify  => Service['jetty6'],
   }
 
-  file { "/root/solr_pass.txt":
-    ensure => present,
+  file { '/root/solr_pass.txt':
+    ensure  => present,
     content => template('solr/solr_pass.txt.erb'),
     owner   => 'root',
     group   => 'root',
