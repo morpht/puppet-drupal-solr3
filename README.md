@@ -10,7 +10,7 @@ sudo apt-get install puppet git wget
 git clone https://github.com/morpht/puppet-drupal-solr3.git /tmp/puppet-drupal-solr3
 sudo mv /tmp/puppet-drupal-solr3 /etc/puppet/modules/solr
 
-sudo puppet apply -e 'class { 'solr': search_module => 'search_api_solr', corecount => 4 }'
+sudo puppet apply -e 'class { 'solr': corecount => 4 }'
 ```
 
 ## Overview
