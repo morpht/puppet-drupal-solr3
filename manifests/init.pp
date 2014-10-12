@@ -1,7 +1,6 @@
 #
 class solr (
   $version   = '3.6.2',
-  $search_module = 'search_api_solr',
   $corecount = 4,
   $urlprefix = 'https://archive.apache.org/dist/lucene/solr',
 ) {
@@ -77,24 +76,20 @@ class solr (
 
   $confdir="${solr_home}/solr/conf"
 
+  file{ "${solr_home}/solr/conf":
+    ensure  => directory,
+    recurse => true,
+    replace => true,
+    purge   => true,
+    force   => true,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    source  => 'puppet:///modules/solr/solr-conf/solr-3.x',
+    require => Exec['untar'],
+    notify  => Service['jetty6'],
+  }
 
-  define modconfig  {
-    file{ "${solr::confdir}/${name}":
-      ensure  => present,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0444',
-      source  => "puppet:///modules/solr/${solr::search_module}/${name}",
-      require => Exec['untar'],
-      notify  => Service['jetty6'],
-    }
-  }
-    # search_api_conf { $xmlfiles:; }
-  modconfig { $search_module ? {
-      'search_api_solr' => [ 'schema.xml', 'solrconfig.xml' ],
-      'apachesolr'      => [ 'schema.xml', 'solrconfig.xml', 'protwords.txt' ],
-    }:
-  }
 
   file { "${solr_home}/solr/solr.xml":
     ensure  => present,
@@ -179,7 +174,7 @@ class solr (
   }
 
   file { "${solr_home}/etc/realm.properties":
-    ensure => present,
+    ensure  => present,
     content => template('solr/realm.properties.erb'),
     owner   => 'root',
     group   => 'solr',
@@ -188,8 +183,8 @@ class solr (
     notify  => Service['jetty6'],
   }
 
-  file { "/root/solr_pass.txt":
-    ensure => present,
+  file { '/root/solr_pass.txt':
+    ensure  => present,
     content => template('solr/solr_pass.txt.erb'),
     owner   => 'root',
     group   => 'root',
